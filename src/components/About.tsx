@@ -47,35 +47,35 @@ export default function About() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="space-y-6"
+              className="space-y-4"
             >
               <p className="text-lg text-gray-700 leading-relaxed">
                 {personalInfo.bio}
               </p>
-              <p className="text-lg text-gray-700 leading-relaxed">
-                I'm passionate about creating beautiful, functional, and user-friendly
-                applications. With a strong foundation in both frontend and backend
-                technologies, I bring ideas to life through clean code and innovative solutions.
-              </p>
+              {personalInfo.bioExtended?.map((paragraph, index) => (
+                <p key={index} className="text-lg text-gray-700 leading-relaxed">
+                  {paragraph}
+                </p>
+              ))}
 
               <div className="grid grid-cols-2 gap-4 pt-4">
                 <div className="p-4 bg-gradient-to-br from-primary-50 to-primary-100 rounded-lg">
-                  <div className="text-2xl font-bold text-primary-600">5+</div>
+                  <div className="text-2xl font-bold text-primary-600">10+</div>
                   <div className="text-gray-600">Years Experience</div>
                 </div>
                 <div className="p-4 bg-gradient-to-br from-accent-50 to-accent-100 rounded-lg">
-                  <div className="text-2xl font-bold text-accent-600">20+</div>
-                  <div className="text-gray-600">Projects Completed</div>
+                  <div className="text-2xl font-bold text-accent-600">50+</div>
+                  <div className="text-gray-600">Connectors Shipped</div>
                 </div>
                 <div className="p-4 bg-gradient-to-br from-secondary-50 to-secondary-100 rounded-lg">
-                  <div className="text-2xl font-bold text-secondary-600">10+</div>
-                  <div className="text-gray-600">Technologies</div>
+                  <div className="text-2xl font-bold text-secondary-600">95%+</div>
+                  <div className="text-gray-600">SLA Coverage</div>
                 </div>
                 <div className="p-4 bg-gradient-to-br from-primary-50 to-accent-50 rounded-lg">
                   <div className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
-                    100%
+                    90%+
                   </div>
-                  <div className="text-gray-600">Dedication</div>
+                  <div className="text-gray-600">CSAT Score</div>
                 </div>
               </div>
             </motion.div>

@@ -243,7 +243,12 @@ export const personalInfo = {
   email: 'arunsunderraj@outlook.com',
   phone: '+91 8197882503',
   location: 'Bengaluru, Karnataka',
-  bio: 'Building data platforms where customer pain, technical rigor, and execution meet.',
+  bio: "I'm a Product Manager with a strong technical background and over ten years of experience working on data platforms. I enjoy understanding how systems break in the real world and turning those lessons into better product decisions.",
+  bioExtended: [
+    "At Hevo, I work on improving connector reliability, authentication flows, and onboarding across modern data stacks. My work touches platforms like Snowflake, Salesforce, HubSpot, NetSuite, and PostgreSQL.",
+    "I like collaborating closely with engineers to shape ideas into simple, maintainable solutions. I'm naturally analytical and spend a lot of time thinking about edge cases and long-term scalability.",
+    "My background in support helps me stay grounded in real user problems. I care about building products that are reliable, understandable, and easy to trust."
+  ],
   socialLinks: {
     github: 'https://github.com/legolsan',
     linkedin: 'https://linkedin.com/in/arunsunderraj',
