@@ -1,6 +1,7 @@
 -- Simple Analytics Tables
+-- Note: Using cuid format to match Prisma schema's @default(cuid())
 CREATE TABLE IF NOT EXISTS page_views (
-    id TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
+    id TEXT PRIMARY KEY,
     page_path VARCHAR(500) NOT NULL,
     referrer VARCHAR(500),
     user_agent TEXT,
