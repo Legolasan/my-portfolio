@@ -172,3 +172,16 @@ model PageView {
   @@map("page_views")
 }
 
+model ResumeDownload {
+  id        String   @id @default(cuid())
+  email     String
+  domain    String   // extracted for analytics
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  @@index([email])
+  @@index([createdAt])
+  @@map("resume_downloads")
+}
+

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import ThemeToggle from './ThemeToggle'
+import ResumeModal from './ResumeModal'
 
 const navItems = [
   { name: 'Home', href: '#home' },
@@ -19,6 +20,7 @@ const navItems = [
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isResumeModalOpen, setIsResumeModalOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -60,13 +62,12 @@ export default function Header() {
               </Link>
             ))}
             <ThemeToggle />
-            <a
-              href="/resume.pdf"
-              download
+            <button
+              onClick={() => setIsResumeModalOpen(true)}
               className="px-4 py-2 bg-gradient-to-r from-primary-600 to-accent-600 text-white rounded-lg hover:shadow-lg transition-all duration-200"
             >
               Resume
-            </a>
+            </button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -114,16 +115,24 @@ export default function Header() {
                 {item.name}
               </Link>
             ))}
-            <a
-              href="/resume.pdf"
-              download
-              className="block px-4 py-2 bg-gradient-to-r from-primary-600 to-accent-600 text-white rounded-lg text-center mt-2"
+            <button
+              onClick={() => {
+                setIsMobileMenuOpen(false)
+                setIsResumeModalOpen(true)
+              }}
+              className="block w-full px-4 py-2 bg-gradient-to-r from-primary-600 to-accent-600 text-white rounded-lg text-center mt-2"
             >
               Resume
-            </a>
+            </button>
           </motion.div>
         )}
       </nav>
+
+      {/* Resume Download Modal */}
+      <ResumeModal 
+        isOpen={isResumeModalOpen} 
+        onClose={() => setIsResumeModalOpen(false)} 
+      />
     </motion.header>
   )
 }
