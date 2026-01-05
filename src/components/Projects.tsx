@@ -8,7 +8,7 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="py-20 bg-gradient-to-br from-gray-50 to-primary-50"
+      className="py-20 bg-gradient-to-br from-gray-50 to-primary-50 dark:from-gray-800 dark:to-gray-900"
     >
       <div className="container mx-auto px-4">
         <motion.div
@@ -22,7 +22,7 @@ export default function Projects() {
             My Projects
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-primary-600 to-accent-600 mx-auto mb-4"></div>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             A collection of projects I've worked on, showcasing my skills and experience
           </p>
         </motion.div>
@@ -35,7 +35,7 @@ export default function Projects() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
+              className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
             >
               <div className="h-48 bg-gradient-to-br from-primary-400 via-accent-400 to-secondary-400 relative overflow-hidden">
                 <img
@@ -53,15 +53,15 @@ export default function Projects() {
                 </div>
               </div>
               <div className="p-6">
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">
+                <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
                   {project.title}
                 </h3>
-                <p className="text-gray-600 mb-4">{project.description}</p>
+                <p className="text-gray-600 dark:text-gray-400 mb-4">{project.description}</p>
                 <div className="flex flex-wrap gap-2 mb-4">
                   {project.technologies.map((tech) => (
                     <span
                       key={tech}
-                      className="px-3 py-1 bg-primary-100 text-primary-700 rounded-full text-sm font-medium"
+                      className="px-3 py-1 bg-primary-100 dark:bg-primary-900/50 text-primary-700 dark:text-primary-300 rounded-full text-sm font-medium"
                     >
                       {tech}
                     </span>

@@ -4,26 +4,26 @@
 
 :root {
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --background-rgb: 255, 255, 255;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.dark {
+  --foreground-rgb: 255, 255, 255;
+  --background-rgb: 17, 24, 39;
 }
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background-color: rgb(var(--background-rgb));
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Theme transition */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease !important;
 }
 
 @layer utilities {
@@ -46,6 +46,10 @@ html {
   background: #f1f1f1;
 }
 
+.dark ::-webkit-scrollbar-track {
+  background: #1f2937;
+}
+
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #0ea5e9, #d946ef);
   border-radius: 5px;
@@ -60,6 +64,10 @@ html {
   color: #374151;
 }
 
+.dark .prose {
+  color: #d1d5db;
+}
+
 .prose h1,
 .prose h2,
 .prose h3,
@@ -70,6 +78,15 @@ html {
   font-weight: 700;
   margin-top: 2em;
   margin-bottom: 1em;
+}
+
+.dark .prose h1,
+.dark .prose h2,
+.dark .prose h3,
+.dark .prose h4,
+.dark .prose h5,
+.dark .prose h6 {
+  color: #f9fafb;
 }
 
 .prose p {
@@ -85,6 +102,10 @@ html {
 .prose a {
   color: #2563eb;
   text-decoration: underline;
+}
+
+.dark .prose a {
+  color: #60a5fa;
 }
 
 .prose ul,
@@ -105,11 +126,21 @@ html {
   color: #6b7280;
 }
 
+.dark .prose blockquote {
+  border-left-color: #4b5563;
+  color: #9ca3af;
+}
+
 .prose code {
   background-color: #f3f4f6;
   padding: 0.2em 0.4em;
   border-radius: 0.25rem;
   font-size: 0.9em;
+}
+
+.dark .prose code {
+  background-color: #374151;
+  color: #f9fafb;
 }
 
 .prose pre {
@@ -119,6 +150,10 @@ html {
   border-radius: 0.5rem;
   overflow-x: auto;
   margin: 2em 0;
+}
+
+.dark .prose pre {
+  background-color: #111827;
 }
 
 .prose pre code {
@@ -131,9 +166,25 @@ html {
 .ql-container {
   min-height: 300px;
   font-size: 16px;
+  background-color: #f9fafb;
 }
 
 .ql-editor {
   min-height: 300px;
+  color: #111827;
+  background-color: #f9fafb;
+}
+
+.ql-editor.ql-blank::before {
+  color: #9ca3af;
+}
+
+.ql-toolbar {
+  background-color: #ffffff;
+  border-color: #d1d5db !important;
+}
+
+.ql-container {
+  border-color: #d1d5db !important;
 }
 

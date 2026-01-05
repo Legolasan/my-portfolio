@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { useState, useRef } from 'react'
 import { personalInfo } from '@/lib/data'
-import { FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa'
+import { FaEnvelope, FaComments, FaMapMarkerAlt } from 'react-icons/fa'
 import emailjs from '@emailjs/browser'
 
 export default function Contact() {
@@ -25,10 +25,10 @@ export default function Contact() {
     
     try {
       const result = await emailjs.sendForm(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        'service_0vcsgv5',
+        'template_mrkpz6w',
         formRef.current!,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+        'q0XZ_LlHZfPiXpC25'
       )
       
       if (result.status === 200) {
@@ -36,10 +36,12 @@ export default function Contact() {
         setFormData({ name: '', email: '', subject: '', message: '' })
         setTimeout(() => setSubmitStatus('idle'), 5000)
       }
-    } catch (error) {
-      console.error('EmailJS error:', error)
+    } catch (error: any) {
+      console.error('EmailJS error:', JSON.stringify(error, null, 2))
+      console.error('EmailJS error text:', error?.text || error?.message || 'Unknown error')
       setSubmitStatus('error')
-      setErrorMessage('Failed to send message. Please try again or email directly.')
+      const errorText = error?.text || error?.message || 'Failed to send message'
+      setErrorMessage(`${errorText}. Please try again or email directly.`)
       setTimeout(() => setSubmitStatus('idle'), 5000)
     } finally {
       setIsSubmitting(false)
@@ -56,7 +58,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="py-20 bg-gradient-to-br from-primary-50 via-accent-50 to-secondary-50"
+      className="py-20 bg-gradient-to-br from-primary-50 via-accent-50 to-secondary-50 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800"
     >
       <div className="container mx-auto px-4">
         <motion.div
@@ -70,7 +72,7 @@ export default function Contact() {
             Get In Touch
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-primary-600 to-accent-600 mx-auto mb-4"></div>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             Have a project in mind or want to collaborate? I'd love to hear from you!
           </p>
         </motion.div>
@@ -86,10 +88,10 @@ export default function Contact() {
               className="space-y-6"
             >
               <div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-6">
+                <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
                   Contact Information
                 </h3>
-                <p className="text-gray-600 mb-8">
+                <p className="text-gray-600 dark:text-gray-400 mb-8">
                   Feel free to reach out through any of these channels. I typically respond within 24 hours.
                 </p>
               </div>
@@ -100,10 +102,10 @@ export default function Contact() {
                     <FaEnvelope className="text-white" size={20} />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-800 mb-1">Email</h4>
+                    <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-1">Email</h4>
                     <a
                       href={`mailto:${personalInfo.email}`}
-                      className="text-primary-600 hover:text-primary-700"
+                      className="text-primary-600 dark:text-primary-400 hover:text-primary-700"
                     >
                       {personalInfo.email}
                     </a>
@@ -112,16 +114,13 @@ export default function Contact() {
 
                 <div className="flex items-start space-x-4">
                   <div className="w-12 h-12 bg-gradient-to-r from-accent-600 to-secondary-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <FaPhone className="text-white" size={20} />
+                    <FaComments className="text-white" size={20} />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-800 mb-1">Phone</h4>
-                    <a
-                      href={`tel:${personalInfo.phone}`}
-                      className="text-primary-600 hover:text-primary-700"
-                    >
-                      {personalInfo.phone}
-                    </a>
+                    <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-1">Let's Talk</h4>
+                    <p className="text-gray-600 dark:text-gray-400">
+                      Fill the form and I'll get back to you!
+                    </p>
                   </div>
                 </div>
 
@@ -130,8 +129,8 @@ export default function Contact() {
                     <FaMapMarkerAlt className="text-white" size={20} />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-800 mb-1">Location</h4>
-                    <p className="text-gray-600">{personalInfo.location}</p>
+                    <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-1">Location</h4>
+                    <p className="text-gray-600 dark:text-gray-400">{personalInfo.location}</p>
                   </div>
                 </div>
               </div>
@@ -144,10 +143,10 @@ export default function Contact() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <form ref={formRef} onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-lg p-8">
+              <form ref={formRef} onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
                 <div className="space-y-6">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label htmlFor="name" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                       Name
                     </label>
                     <input
@@ -157,13 +156,13 @@ export default function Contact() {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 bg-gray-50 text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white outline-none transition-all placeholder:text-gray-400"
+                      className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white dark:focus:bg-gray-600 outline-none transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500"
                       placeholder="Your Name"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label htmlFor="email" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                       Email
                     </label>
                     <input
@@ -173,13 +172,13 @@ export default function Contact() {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 bg-gray-50 text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white outline-none transition-all placeholder:text-gray-400"
+                      className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white dark:focus:bg-gray-600 outline-none transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500"
                       placeholder="your.email@example.com"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="subject" className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label htmlFor="subject" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                       Subject
                     </label>
                     <input
@@ -189,13 +188,13 @@ export default function Contact() {
                       value={formData.subject}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 bg-gray-50 text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white outline-none transition-all placeholder:text-gray-400"
+                      className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white dark:focus:bg-gray-600 outline-none transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500"
                       placeholder="Subject"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="message" className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label htmlFor="message" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                       Message
                     </label>
                     <textarea
@@ -205,7 +204,7 @@ export default function Contact() {
                       onChange={handleChange}
                       required
                       rows={5}
-                      className="w-full px-4 py-3 bg-gray-50 text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400"
+                      className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white dark:focus:bg-gray-600 outline-none transition-all resize-none placeholder:text-gray-400 dark:placeholder:text-gray-500"
                       placeholder="Your message..."
                     />
                   </div>

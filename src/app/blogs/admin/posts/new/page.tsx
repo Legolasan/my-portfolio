@@ -116,7 +116,7 @@ export default function NewPostPage() {
             required
             value={formData.title}
             onChange={(e) => handleTitleChange(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:bg-white placeholder:text-gray-400"
             placeholder="Enter post title"
           />
         </div>
@@ -130,7 +130,7 @@ export default function NewPostPage() {
             required
             value={formData.slug}
             onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:bg-white placeholder:text-gray-400"
             placeholder="post-url-slug"
           />
         </div>
@@ -143,7 +143,7 @@ export default function NewPostPage() {
             value={formData.excerpt}
             onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
             rows={3}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:bg-white placeholder:text-gray-400"
             placeholder="Brief description of the post"
           />
         </div>
@@ -156,7 +156,7 @@ export default function NewPostPage() {
             type="url"
             value={formData.featuredImage}
             onChange={(e) => setFormData({ ...formData, featuredImage: e.target.value })}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:bg-white placeholder:text-gray-400"
             placeholder="https://example.com/image.jpg"
           />
         </div>
@@ -251,7 +251,7 @@ export default function NewPostPage() {
           <select
             value={formData.status}
             onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:bg-white"
           >
             <option value="draft">Draft</option>
             <option value="published">Published</option>

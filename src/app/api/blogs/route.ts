@@ -11,6 +11,36 @@ import {
 import { prisma } from '@/lib/db'
 
 export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url)
+  const status = searchParams.get('status')
+  const limit = searchParams.get('limit')
+
+  // Public access for published posts
+  if (status === 'published') {
+    try {
+      const posts = await prisma.blogPost.findMany({
+        where: { status: 'published' },
+        orderBy: { publishedAt: 'desc' },
+        take: limit ? parseInt(limit) : undefined,
+        select: {
+          id: true,
+          title: true,
+          slug: true,
+          excerpt: true,
+          content: true,
+          featuredImage: true,
+          createdAt: true,
+          publishedAt: true,
+        },
+      })
+      return NextResponse.json(posts)
+    } catch (error) {
+      console.error('Error fetching published posts:', error)
+      return NextResponse.json({ error: 'Failed to fetch posts' }, { status: 500 })
+    }
+  }
+
+  // Admin access for all posts
   const session = await getServerSession(authOptions)
 
   if (!session || session.user.role !== 'admin') {

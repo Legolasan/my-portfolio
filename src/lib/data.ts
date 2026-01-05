@@ -130,11 +130,11 @@ export const experiences: Experience[] = [
     duration: '2018 - 2019',
     location: 'Bengaluru, Karnataka',
     description: [
-      'Handling incoming queries/Issues for the Hevo ETL platform.',
-'Solved >70% cases under 24 hours.',
-'Kept the referral to engineering below 30%. Keep iterating over the referred Jiras to make sure, we have KB OR Troubleshooting article created.',
-'Kept improving the knowledge space by contributing more than 5 KBs a week.',
-'Maintained the CSAT more than 90% overall in my tenure.'
+    'Provided technical support for the Sprinklr Premium Ads Serving platform, troubleshooting and resolving complex ad delivery and reporting issues for global clients.',
+    'Acted as a point of contact between clients and engineering teams, facilitating timely resolution of escalated technical problems.',
+    'Monitored, analyzed, and diagnosed ads platform incidents, ensuring high availability and minimal downtime for mission-critical campaigns.',
+    'Created and maintained troubleshooting documentation and internal knowledge base articles to improve support team efficiency.',
+    'Collaborated cross-functionally with product and development teams to provide feedback and advocate for customer-centric feature improvements.',
     ],
   },
   {
@@ -144,11 +144,11 @@ export const experiences: Experience[] = [
     duration: '2015 - 2018',
     location: 'Bengaluru, Karnataka',
     description: [
-      'Handling incoming queries/Issues for the Hevo ETL platform.',
-'Solved >70% cases under 24 hours.',
-'Kept the referral to engineering below 30%. Keep iterating over the referred Jiras to make sure, we have KB OR Troubleshooting article created.',
-'Kept improving the knowledge space by contributing more than 5 KBs a week.',
-'Maintained the CSAT more than 90% overall in my tenure.'
+    'Provided advanced technical support for Yahoo Ads platforms, handling queries and issues from global clients.',
+    'Diagnosed and resolved ad delivery, targeting, and reporting issues, collaborating closely with engineering and product teams for complex escalations.',
+    'Maintained a resolution SLA of over 85% for assigned support tickets, ensuring timely and effective solutions.',
+    'Documented troubleshooting steps and contributed to the creation and upkeep of internal knowledge base articles.',
+    'Consistently received positive CSAT feedback by demonstrating effective communication and empathy with clients.',
     ],
   },
   {
@@ -158,11 +158,11 @@ export const experiences: Experience[] = [
     duration: '2014 - 2014',
     location: 'Bengaluru, Karnataka',
     description: [
-      'Handling incoming queries/Issues for the Hevo ETL platform.',
-'Solved >70% cases under 24 hours.',
-'Kept the referral to engineering below 30%. Keep iterating over the referred Jiras to make sure, we have KB OR Troubleshooting article created.',
-'Kept improving the knowledge space by contributing more than 5 KBs a week.',
-'Maintained the CSAT more than 90% overall in my tenure.'
+    'Handled customer queries and provided technical support via email for Apple iTunes services.',
+    'Assisted users with account issues, purchase problems, subscription management, and troubleshooting playback errors.',
+    'Collaborated with cross-functional teams to escalate and resolve complex cases efficiently.',
+    'Maintained high standards of customer satisfaction by providing clear communication and timely responses.',
+    'Documented recurring issues and contributed to internal knowledge base to streamline support processes.',
     ],
   },
 ];
@@ -250,7 +250,7 @@ export const personalInfo = {
     "My background in support helps me stay grounded in real user problems. I care about building products that are reliable, understandable, and easy to trust."
   ],
   socialLinks: {
-    github: 'https://github.com/legolsan',
+    github: 'https://github.com/legolasan',
     linkedin: 'https://linkedin.com/in/arunsunderraj',
     email: 'mailto:arunsunderraj@outlook.com',
   },

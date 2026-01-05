@@ -8,7 +8,7 @@ export default function Education() {
   return (
     <section
       id="education"
-      className="py-20 bg-white"
+      className="py-20 bg-white dark:bg-gray-900"
     >
       <div className="container mx-auto px-4">
         <motion.div
@@ -33,26 +33,26 @@ export default function Education() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className={`bg-gradient-to-br from-primary-50 to-accent-50 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 ${education.length === 1 ? 'max-w-md w-full' : ''}`}
+                className={`bg-gradient-to-br from-primary-50 to-accent-50 dark:from-gray-800 dark:to-gray-700 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 ${education.length === 1 ? 'max-w-md w-full' : ''}`}
               >
                 <div className="flex items-start mb-4">
                   <div className="w-12 h-12 bg-gradient-to-r from-primary-600 to-accent-600 rounded-lg flex items-center justify-center mr-4">
                     <FaGraduationCap className="text-white" size={24} />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-gray-800 mb-1">
+                    <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-1">
                       {edu.degree}
                     </h3>
-                    <p className="text-primary-600 font-semibold mb-2">
+                    <p className="text-primary-600 dark:text-primary-400 font-semibold mb-2">
                       {edu.field}
                     </p>
-                    <p className="text-lg font-medium text-gray-700 mb-3">
+                    <p className="text-lg font-medium text-gray-700 dark:text-gray-300 mb-3">
                       {edu.institution}
                     </p>
                   </div>
                 </div>
 
-                <div className="space-y-2 text-sm text-gray-600">
+                <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
                   <div className="flex items-center">
                     <FaCalendarAlt className="mr-2 text-primary-600" size={14} />
                     {edu.duration}

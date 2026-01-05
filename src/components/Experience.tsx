@@ -8,7 +8,7 @@ export default function Experience() {
   return (
     <section
       id="experience"
-      className="py-20 bg-gradient-to-br from-accent-50 to-secondary-50"
+      className="py-20 bg-gradient-to-br from-accent-50 to-secondary-50 dark:from-gray-800 dark:to-gray-900"
     >
       <div className="container mx-auto px-4">
         <motion.div
@@ -43,20 +43,20 @@ export default function Experience() {
                 {/* Timeline Dot */}
                 <div className="absolute left-8 md:left-1/2 w-4 h-4 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full border-4 border-white shadow-lg transform -translate-x-1/2 -translate-y-1"></div>
 
-                <div className="ml-16 md:ml-0 bg-white rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300">
+                <div className="ml-16 md:ml-0 bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300">
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
                     <div>
-                      <h3 className="text-2xl font-bold text-gray-800 mb-1">
+                      <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-1">
                         {exp.position}
                       </h3>
-                      <div className="flex items-center text-primary-600 font-semibold mb-2">
+                      <div className="flex items-center text-primary-600 dark:text-primary-400 font-semibold mb-2">
                         <FaBriefcase className="mr-2" size={16} />
                         {exp.company}
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex flex-wrap gap-4 mb-4 text-sm text-gray-600">
+                  <div className="flex flex-wrap gap-4 mb-4 text-sm text-gray-600 dark:text-gray-400">
                     <div className="flex items-center">
                       <FaCalendarAlt className="mr-2" size={14} />
                       {exp.duration}
@@ -69,8 +69,8 @@ export default function Experience() {
 
                   <ul className="space-y-2">
                     {exp.description.map((item, idx) => (
-                      <li key={idx} className="flex items-start text-gray-700">
-                        <span className="text-primary-600 mr-2 mt-1">▸</span>
+                      <li key={idx} className="flex items-start text-gray-700 dark:text-gray-300">
+                        <span className="text-primary-600 dark:text-primary-400 mr-2 mt-1">▸</span>
                         <span>{item}</span>
                       </li>
                     ))}

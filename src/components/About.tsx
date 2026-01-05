@@ -7,7 +7,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="py-20 bg-white"
+      className="py-20 bg-white dark:bg-gray-900"
     >
       <div className="container mx-auto px-4">
         <motion.div
@@ -58,33 +58,30 @@ export default function About() {
               transition={{ duration: 0.6 }}
               className="space-y-4"
             >
-              <p className="text-lg text-gray-700 leading-relaxed">
-                {personalInfo.bio}
-              </p>
               {personalInfo.bioExtended?.map((paragraph, index) => (
-                <p key={index} className="text-lg text-gray-700 leading-relaxed">
+                <p key={index} className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
                   {paragraph}
                 </p>
               ))}
 
               <div className="grid grid-cols-2 gap-4 pt-4">
-                <div className="p-4 bg-gradient-to-br from-primary-50 to-primary-100 rounded-lg">
-                  <div className="text-2xl font-bold text-primary-600">10+</div>
-                  <div className="text-gray-600">Years Experience</div>
+                <div className="p-4 bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/30 dark:to-primary-800/30 rounded-lg">
+                  <div className="text-2xl font-bold text-primary-600 dark:text-primary-400">10+</div>
+                  <div className="text-gray-600 dark:text-gray-400">Years Experience</div>
                 </div>
-                <div className="p-4 bg-gradient-to-br from-accent-50 to-accent-100 rounded-lg">
-                  <div className="text-2xl font-bold text-accent-600">50+</div>
-                  <div className="text-gray-600">Connectors Shipped</div>
+                <div className="p-4 bg-gradient-to-br from-accent-50 to-accent-100 dark:from-accent-900/30 dark:to-accent-800/30 rounded-lg">
+                  <div className="text-2xl font-bold text-accent-600 dark:text-accent-400">50+</div>
+                  <div className="text-gray-600 dark:text-gray-400">Connectors Shipped</div>
                 </div>
-                <div className="p-4 bg-gradient-to-br from-secondary-50 to-secondary-100 rounded-lg">
-                  <div className="text-2xl font-bold text-secondary-600">95%+</div>
-                  <div className="text-gray-600">SLA Coverage</div>
+                <div className="p-4 bg-gradient-to-br from-secondary-50 to-secondary-100 dark:from-secondary-900/30 dark:to-secondary-800/30 rounded-lg">
+                  <div className="text-2xl font-bold text-secondary-600 dark:text-secondary-400">95%+</div>
+                  <div className="text-gray-600 dark:text-gray-400">SLA Coverage</div>
                 </div>
-                <div className="p-4 bg-gradient-to-br from-primary-50 to-accent-50 rounded-lg">
+                <div className="p-4 bg-gradient-to-br from-primary-50 to-accent-50 dark:from-primary-900/30 dark:to-accent-800/30 rounded-lg">
                   <div className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
                     90%+
                   </div>
-                  <div className="text-gray-600">CSAT Score</div>
+                  <div className="text-gray-600 dark:text-gray-400">CSAT Score</div>
                 </div>
               </div>
             </motion.div>

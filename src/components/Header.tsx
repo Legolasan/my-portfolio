@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import ThemeToggle from './ThemeToggle'
 
 const navItems = [
   { name: 'Home', href: '#home' },
@@ -34,7 +35,7 @@ export default function Header() {
       transition={{ duration: 0.5 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-white/90 backdrop-blur-md shadow-lg'
+          ? 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-lg'
           : 'bg-transparent'
       }`}
     >
@@ -53,11 +54,12 @@ export default function Header() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-gray-700 hover:text-primary-600 transition-colors duration-200 font-medium"
+                className="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200 font-medium"
               >
                 {item.name}
               </Link>
             ))}
+            <ThemeToggle />
             <a
               href="/resume.pdf"
               download
@@ -68,11 +70,13 @@ export default function Header() {
           </div>
 
           {/* Mobile Menu Button */}
-          <button
-            className="md:hidden text-gray-700"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
+          <div className="md:hidden flex items-center space-x-2">
+            <ThemeToggle />
+            <button
+              className="text-gray-700 dark:text-gray-300"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
             <svg
               className="w-6 h-6"
               fill="none"
@@ -88,7 +92,8 @@ export default function Header() {
                 <path d="M4 6h16M4 12h16M4 18h16" />
               )}
             </svg>
-          </button>
+            </button>
+          </div>
         </div>
 
         {/* Mobile Menu */}
@@ -103,7 +108,7 @@ export default function Header() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="block py-2 text-gray-700 hover:text-primary-600 transition-colors"
+                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {item.name}
