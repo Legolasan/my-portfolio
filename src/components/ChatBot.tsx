@@ -14,19 +14,27 @@ const INITIAL_MESSAGE: Message = {
   content: "Hi! I'm Arun's AI assistant. Ask me anything about his experience, skills, or projects!",
 }
 
+// Generate a unique session ID
+function generateSessionId(): string {
+  return `chat_${Date.now()}_${Math.random().toString(36).substring(2, 15)}`
+}
+
 export default function ChatBot() {
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const [sessionId, setSessionId] = useState<string>('')
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     setMounted(true)
-    // Load chat history from session storage
+    // Load chat history and session from session storage
     const savedMessages = sessionStorage.getItem('chatHistory')
+    const savedSessionId = sessionStorage.getItem('chatSessionId')
+    
     if (savedMessages) {
       try {
         const parsed = JSON.parse(savedMessages)
@@ -36,6 +44,15 @@ export default function ChatBot() {
       } catch (e) {
         console.error('Failed to parse chat history')
       }
+    }
+    
+    if (savedSessionId) {
+      setSessionId(savedSessionId)
+    } else {
+      // Generate new session ID
+      const newSessionId = generateSessionId()
+      setSessionId(newSessionId)
+      sessionStorage.setItem('chatSessionId', newSessionId)
     }
   }, [])
 
@@ -59,7 +76,7 @@ export default function ChatBot() {
   }, [isOpen])
 
   const sendMessage = async () => {
-    if (!input.trim() || isLoading) return
+    if (!input.trim() || isLoading || !sessionId) return
 
     const userMessage: Message = { role: 'user', content: input.trim() }
     const newMessages = [...messages, userMessage]
@@ -73,6 +90,7 @@ export default function ChatBot() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           messages: newMessages.slice(1).map(m => ({ role: m.role, content: m.content })),
+          sessionId: sessionId,
         }),
       })
 
@@ -144,6 +162,10 @@ export default function ChatBot() {
   const clearChat = () => {
     setMessages([INITIAL_MESSAGE])
     sessionStorage.removeItem('chatHistory')
+    // Generate a new session ID for the next conversation
+    const newSessionId = generateSessionId()
+    setSessionId(newSessionId)
+    sessionStorage.setItem('chatSessionId', newSessionId)
   }
 
   if (!mounted) return null
@@ -270,4 +292,3 @@ export default function ChatBot() {
     </>
   )
 }
-

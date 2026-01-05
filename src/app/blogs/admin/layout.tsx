@@ -4,7 +4,7 @@ import { useSession, signOut } from 'next-auth/react'
 import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { useEffect } from 'react'
-import { FaHome, FaFileAlt, FaTags, FaComments, FaSignOutAlt, FaBlog, FaChartBar } from 'react-icons/fa'
+import { FaHome, FaFileAlt, FaTags, FaComments, FaSignOutAlt, FaBlog, FaChartBar, FaRobot } from 'react-icons/fa'
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const { data: session, status } = useSession()
@@ -110,6 +110,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               >
                 <FaChartBar />
                 <span>Analytics</span>
+              </Link>
+              <Link
+                href="/blogs/admin/chats"
+                className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-primary-50 hover:text-primary-600 rounded-lg transition-colors"
+              >
+                <FaRobot />
+                <span>Chat Logs</span>
               </Link>
               <Link
                 href="/blogs"

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
 import { personalInfo, experiences, skills, projects, education } from '@/lib/data'
+import { prisma } from '@/lib/db'
+import { UAParser } from 'ua-parser-js'
 
 // Simple in-memory rate limiting
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>()
@@ -76,10 +78,84 @@ Guidelines:
 - Be enthusiastic about ${personalInfo.name}'s achievements and experience
 - For contact inquiries, suggest using the contact form on the website or emailing ${personalInfo.email}`
 
+// Get or create chat session
+async function getOrCreateSession(
+  sessionId: string,
+  ip: string,
+  userAgent: string | null
+): Promise<string> {
+  try {
+    // Check if session exists
+    const existing = await prisma.chatSession.findUnique({
+      where: { sessionId },
+    })
+
+    if (existing) {
+      return existing.id
+    }
+
+    // Parse user agent
+    let device = 'unknown'
+    let browser = 'unknown'
+    let os = 'unknown'
+    
+    if (userAgent) {
+      const parser = new UAParser(userAgent)
+      const result = parser.getResult()
+      device = result.device.type || 'desktop'
+      browser = result.browser.name || 'unknown'
+      os = result.os.name || 'unknown'
+    }
+
+    // Try to get location from IP (simple approach - in production use a geo-IP service)
+    let country: string | null = null
+    let city: string | null = null
+
+    // Create new session
+    const session = await prisma.chatSession.create({
+      data: {
+        sessionId,
+        ipAddress: ip,
+        userAgent,
+        device,
+        browser,
+        os,
+        country,
+        city,
+      },
+    })
+
+    return session.id
+  } catch (error) {
+    console.error('Error creating chat session:', error)
+    throw error
+  }
+}
+
+// Save message to database
+async function saveMessage(
+  dbSessionId: string,
+  role: 'user' | 'assistant',
+  content: string
+): Promise<void> {
+  try {
+    await prisma.chatMessage.create({
+      data: {
+        sessionId: dbSessionId,
+        role,
+        content,
+      },
+    })
+  } catch (error) {
+    console.error('Error saving chat message:', error)
+    // Don't throw - we don't want to break the chat if logging fails
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     // Get client IP for rate limiting
-    const ip = request.headers.get('x-forwarded-for') || 
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
                request.headers.get('x-real-ip') || 
                'unknown'
     
@@ -90,13 +166,36 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const { messages } = await request.json()
+    const userAgent = request.headers.get('user-agent')
+    const { messages, sessionId } = await request.json()
 
     if (!messages || !Array.isArray(messages)) {
       return NextResponse.json(
         { error: 'Invalid request: messages array required' },
         { status: 400 }
       )
+    }
+
+    if (!sessionId) {
+      return NextResponse.json(
+        { error: 'Invalid request: sessionId required' },
+        { status: 400 }
+      )
+    }
+
+    // Get or create session in database
+    let dbSessionId: string
+    try {
+      dbSessionId = await getOrCreateSession(sessionId, ip, userAgent)
+    } catch (error) {
+      console.error('Failed to create session, continuing without logging:', error)
+      dbSessionId = ''
+    }
+
+    // Get the latest user message to save
+    const latestUserMessage = messages[messages.length - 1]
+    if (dbSessionId && latestUserMessage?.role === 'user') {
+      await saveMessage(dbSessionId, 'user', latestUserMessage.content)
     }
 
     // Limit conversation history to last 10 messages to control costs
@@ -117,6 +216,9 @@ export async function POST(request: NextRequest) {
       stream: true,
     })
 
+    // Collect full response for saving
+    let fullAssistantResponse = ''
+
     // Create a readable stream for the response
     const encoder = new TextEncoder()
     const stream = new ReadableStream({
@@ -125,9 +227,16 @@ export async function POST(request: NextRequest) {
           for await (const chunk of response) {
             const content = chunk.choices[0]?.delta?.content || ''
             if (content) {
+              fullAssistantResponse += content
               controller.enqueue(encoder.encode(`data: ${JSON.stringify({ content })}\n\n`))
             }
           }
+          
+          // Save assistant response to database
+          if (dbSessionId && fullAssistantResponse) {
+            saveMessage(dbSessionId, 'assistant', fullAssistantResponse).catch(console.error)
+          }
+          
           controller.enqueue(encoder.encode('data: [DONE]\n\n'))
           controller.close()
         } catch (error) {
@@ -159,4 +268,3 @@ export async function POST(request: NextRequest) {
     )
   }
 }
-

@@ -185,3 +185,36 @@ model ResumeDownload {
   @@map("resume_downloads")
 }
 
+// Chat Conversations
+model ChatSession {
+  id        String   @id @default(cuid())
+  sessionId String   @unique
+  ipAddress String?  @db.VarChar(100)
+  country   String?  @db.VarChar(100)
+  city      String?  @db.VarChar(100)
+  device    String?  @db.VarChar(50)
+  browser   String?  @db.VarChar(100)
+  os        String?  @db.VarChar(100)
+  userAgent String?  @db.Text
+  startedAt DateTime @default(now())
+  endedAt   DateTime?
+  messages  ChatMessage[]
+
+  @@index([startedAt])
+  @@index([sessionId])
+  @@map("chat_sessions")
+}
+
+model ChatMessage {
+  id        String      @id @default(cuid())
+  sessionId String
+  session   ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  role      String      @db.VarChar(20) // "user" or "assistant"
+  content   String      @db.Text
+  createdAt DateTime    @default(now())
+
+  @@index([sessionId])
+  @@index([createdAt])
+  @@map("chat_messages")
+}
+
