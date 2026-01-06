@@ -15,6 +15,7 @@ const navItems = [
   { name: 'Education', href: '#education' },
   { name: 'Contact', href: '#contact' },
   { name: 'Blog', href: '/blogs' },
+  { name: 'Services', href: '/services' },
 ]
 
 export default function Header() {
