@@ -9,6 +9,10 @@ import { rateLimiters, getClientIP } from '@/lib/rateLimit'
 const MAX_MESSAGE_LENGTH = 1000
 const MAX_SESSION_ID_LENGTH = 100
 const MAX_MESSAGES_COUNT = 20
+const MAX_QUESTIONS_PER_SESSION = 10
+
+// Limit reached response
+const LIMIT_REACHED_MESSAGE = `Thanks for your interest! You've reached the question limit for this session (${MAX_QUESTIONS_PER_SESSION} questions). For more detailed questions or to continue the conversation, please email me at ${personalInfo.email} or use the contact form below. I'd love to hear from you! 😊`
 
 // Build context from portfolio data
 function buildContext(): string {
@@ -152,6 +156,24 @@ async function saveMessage(
   }
 }
 
+// Count user questions in a session
+async function countUserQuestions(dbSessionId: string): Promise<number> {
+  try {
+    const count = await prisma.chatMessage.count({
+      where: {
+        sessionId: dbSessionId,
+        role: 'user',
+      },
+    })
+    return count
+  } catch (error) {
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Error counting user questions:', error)
+    }
+    return 0
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     // Rate limiting using centralized limiter
@@ -230,6 +252,34 @@ export async function POST(request: NextRequest) {
     const latestUserMessage = sanitizedMessages[sanitizedMessages.length - 1]
     if (dbSessionId && latestUserMessage?.role === 'user') {
       await saveMessage(dbSessionId, 'user', latestUserMessage.content)
+    }
+
+    // Check if user has reached the question limit
+    if (dbSessionId) {
+      const questionCount = await countUserQuestions(dbSessionId)
+      
+      if (questionCount > MAX_QUESTIONS_PER_SESSION) {
+        // Save the limit message as assistant response
+        await saveMessage(dbSessionId, 'assistant', LIMIT_REACHED_MESSAGE)
+        
+        // Return a streamed response with the limit message
+        const encoder = new TextEncoder()
+        const limitStream = new ReadableStream({
+          start(controller) {
+            controller.enqueue(encoder.encode(`data: ${JSON.stringify({ content: LIMIT_REACHED_MESSAGE })}\n\n`))
+            controller.enqueue(encoder.encode('data: [DONE]\n\n'))
+            controller.close()
+          },
+        })
+
+        return new Response(limitStream, {
+          headers: {
+            'Content-Type': 'text/event-stream',
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Connection': 'keep-alive',
+          },
+        })
+      }
     }
 
     // Limit conversation history to last 10 messages to control costs
