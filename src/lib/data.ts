@@ -48,7 +48,6 @@ export const projects: Project[] = [
     description: 'Record keeping for all the customer interactions with the product and making insights out of it.',
     technologies: ['Python', 'Flask', 'PostgreSQL', 'Analytics'],
     image: '/images/project1.jpg',
-    link: 'https://customersessionanalyser-production.up.railway.app/',
     github: 'https://github.com/Legolasan/customer_session_analyser',
   },
   {
@@ -57,7 +56,6 @@ export const projects: Project[] = [
     description: 'Create test cases from the Zendesk tickets for regression and functional testing.',
     technologies: ['Python', 'Zendesk API', 'Test Automation'],
     image: '/images/project2.jpg',
-    link: 'https://zendeskanalyser-production.up.railway.app/',
     github: 'https://github.com/Legolasan/zendesk_analyser',
   },
   {
@@ -66,7 +64,6 @@ export const projects: Project[] = [
     description: 'Rotate the Snowflake key-pairs from your terminal. Available as a PyPI package.',
     technologies: ['Python', 'Snowflake', 'CLI', 'PyPI'],
     image: '/images/project3.jpg',
-    link: 'https://pypi.org/project/sf-rotation/',
     github: 'https://github.com/Legolasan/sf_rotation',
   },
   {
@@ -75,7 +72,6 @@ export const projects: Project[] = [
     description: 'Space where you can track your work items week over week.',
     technologies: ['Python', 'Flask', 'PostgreSQL', 'Productivity'],
     image: '/images/project4.jpg',
-    link: 'https://weeklyreporting-production.up.railway.app',
     github: 'https://github.com/Legolasan/weekly_reporting',
   },
 ];
