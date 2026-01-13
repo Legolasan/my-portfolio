@@ -122,9 +122,13 @@ ssh $SERVER "cd $REMOTE_DIR && npx prisma migrate deploy" || {
 
 # Check if SSL certificate exists
 echo "🔐 Checking SSL certificate..."
-SSL_EXISTS=$(ssh $SERVER "[ -f /etc/letsencrypt/live/legolasan.in/fullchain.pem ] && echo 'yes' || echo 'no'")
+SSL_EXISTS=$(ssh $SERVER "sudo test -f /etc/letsencrypt/live/legolasan.in/fullchain.pem && echo 'yes' || echo 'no'")
 
-if [ "$SSL_EXISTS" = "no" ]; then
+if [ "$SSL_EXISTS" = "yes" ]; then
+    echo "✅ SSL certificate found. Using HTTPS configuration..."
+    ssh $SERVER "sudo cp $REMOTE_DIR/nginx/portfolio.conf /etc/nginx/sites-available/portfolio.conf"
+    echo "ℹ️  SSL certificate is configured. Certificate auto-renewal is handled by systemd timer."
+else
     echo "⚠️  SSL certificate not found. Using HTTP-only configuration..."
     echo "📋 Please ensure DNS is configured correctly:"
     echo "   - legolasan.in → 195.35.22.87"
@@ -133,22 +137,22 @@ if [ "$SSL_EXISTS" = "no" ]; then
     echo "🔍 Verifying DNS..."
     DNS_CHECK=$(ssh $SERVER "dig +short legolasan.in 2>/dev/null | head -1 || echo 'not_resolved'")
     WWW_CHECK=$(ssh $SERVER "dig +short www.legolasan.in 2>/dev/null | head -1 || echo 'not_resolved'")
-    
+
     if [ "$DNS_CHECK" = "195.35.22.87" ] && [ "$WWW_CHECK" = "195.35.22.87" ]; then
         echo "✅ DNS is configured correctly. Setting up SSL certificate..."
         # Use HTTP-only config first
         ssh $SERVER "sudo cp $REMOTE_DIR/nginx/portfolio-http.conf /etc/nginx/sites-available/portfolio.conf"
         ssh $SERVER "sudo nginx -t && sudo systemctl reload nginx"
-        
+
         # Now obtain SSL certificate
         echo "🔐 Obtaining SSL certificate..."
         ssh $SERVER "sudo certbot certonly --nginx -d legolasan.in -d www.legolasan.in --non-interactive --agree-tos --email admin@legolasan.in --redirect" || {
             echo "⚠️  SSL certificate setup failed. Using HTTP-only for now."
             echo "   You can manually set up SSL later with: ./setup-ssl.sh"
         }
-        
+
         # If certificate was obtained, switch to HTTPS config
-        if ssh $SERVER "[ -f /etc/letsencrypt/live/legolasan.in/fullchain.pem ]"; then
+        if ssh $SERVER "sudo test -f /etc/letsencrypt/live/legolasan.in/fullchain.pem"; then
             echo "✅ SSL certificate obtained! Switching to HTTPS configuration..."
             ssh $SERVER "sudo cp $REMOTE_DIR/nginx/portfolio.conf /etc/nginx/sites-available/portfolio.conf"
         fi
@@ -158,10 +162,6 @@ if [ "$SSL_EXISTS" = "no" ]; then
         echo "   Once DNS is configured, SSL will be set up automatically on next deployment"
         ssh $SERVER "sudo cp $REMOTE_DIR/nginx/portfolio-http.conf /etc/nginx/sites-available/portfolio.conf"
     fi
-else
-    echo "✅ SSL certificate found. Using HTTPS configuration..."
-    ssh $SERVER "sudo cp $REMOTE_DIR/nginx/portfolio.conf /etc/nginx/sites-available/portfolio.conf"
-    echo "ℹ️  SSL certificate is configured. Certificate auto-renewal is handled by systemd timer."
 fi
 
 # Ensure symlink exists
