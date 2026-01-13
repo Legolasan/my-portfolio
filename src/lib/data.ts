@@ -255,6 +255,15 @@ export const tools: Tool[] = [
   },
   {
     id: '2',
+    name: 'Snowflake Credit Monitor',
+    description: 'Streamlit dashboard to monitor and analyze Snowflake credit consumption with real-time tracking. Identify costly queries, track warehouse efficiency, and optimize cloud database costs.',
+    category: 'Analytics',
+    icon: '💰',
+    link: 'https://github.com/Legolasan/sf_credit_monitor',
+    technologies: ['Python', 'Streamlit', 'Snowflake'],
+  },
+  {
+    id: '3',
     name: 'Zendesk Test Case Generator',
     description: 'Automatically generate test cases from Zendesk tickets for regression and functional testing. Streamlines QA workflows.',
     category: 'Testing & QA',
@@ -263,7 +272,7 @@ export const tools: Tool[] = [
     technologies: ['Python', 'Zendesk API'],
   },
   {
-    id: '3',
+    id: '4',
     name: 'Snowflake Key Rotation CLI',
     description: 'Rotate Snowflake key-pairs directly from your terminal. Published as a PyPI package for easy installation and use.',
     category: 'Security & DevOps',
@@ -272,7 +281,7 @@ export const tools: Tool[] = [
     technologies: ['Python', 'Snowflake', 'PyPI'],
   },
   {
-    id: '4',
+    id: '5',
     name: 'Weekly Reporting Tracker',
     description: 'Personal productivity tool to track work items week over week. Stay organized and never miss important tasks.',
     category: 'Productivity',
